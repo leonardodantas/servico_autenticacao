@@ -1,22 +1,23 @@
 package com.servico.autenticacao.utils;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
 @Getter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Errors {
 
-    private final String field;
-    private final String message;
-
-    public Errors(String field, String message) {
-        this.field = field;
-        this.message = message;
-    }
+    private String field;
+    private String message;
 
     public Errors(ObjectError error) {
         this.field = ((FieldError) error).getField();
         this.message = error.getDefaultMessage();
+    }
+
+    public Errors(String message) {
+        this.message = message;
     }
 }

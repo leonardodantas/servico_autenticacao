@@ -4,9 +4,12 @@ import com.servico.autenticacao.models.usuario.User;
 import com.servico.autenticacao.models.usuario.dto.UserDTO;
 import com.servico.autenticacao.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -15,8 +18,16 @@ public class UserService {
     private IUserRepository userRepository;
 
     public UserDTO signUpUser(UserDTO userDTO){
+        checksForEmail(userDTO.getEmail());
         User user = User.createUserAndGenerateUUID(userDTO);
         return saveUser(user);
+    }
+
+    private void checksForEmail(String email){
+            Optional<User> user = userRepository.findByEmail(email);
+            if(user.isPresent()) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "E-mail already registered");
+            }
     }
 
     private UserDTO saveUser(User user){
