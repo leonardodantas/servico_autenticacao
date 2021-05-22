@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.HttpURLConnection;
 
 @RestController
@@ -29,7 +30,7 @@ public class UserController {
             @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = "Error creating user"),
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = "BAD REQUEST")
     })
-    public ResponseEntity<UserDTO> signUpUser(@RequestBody UserDTO user){
+    public ResponseEntity<UserDTO> signUpUser(@Valid @RequestBody UserDTO user){
         UserDTO userDTO = userService.signUpUser(user);
         if(Strings.isNullOrEmpty(userDTO.getId())) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
