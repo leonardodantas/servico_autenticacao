@@ -1,4 +1,4 @@
-package com.servico.autenticacao.config;
+package com.servico.autenticacao.config.swagger;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

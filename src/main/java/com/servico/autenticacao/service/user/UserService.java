@@ -1,4 +1,4 @@
-package com.servico.autenticacao.service;
+package com.servico.autenticacao.service.user;
 
 import com.servico.autenticacao.models.usuario.User;
 import com.servico.autenticacao.models.usuario.dto.UserDTO;
@@ -19,15 +19,15 @@ public class UserService {
 
     public UserDTO signUpUser(UserDTO userDTO){
         checksForEmail(userDTO.getEmail());
-        User user = User.createUserAndGenerateUUID(userDTO);
+        User user = User.createSimpleUserAndGenerateUUID(userDTO);
         return saveUser(user);
     }
 
     private void checksForEmail(String email){
-            Optional<User> user = userRepository.findByEmail(email);
-            if(user.isPresent()) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "E-mail already registered");
-            }
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "E-mail already registered");
+        }
     }
 
     private UserDTO saveUser(User user){

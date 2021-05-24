@@ -1,5 +1,6 @@
 package com.servico.autenticacao.models.usuario.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.servico.autenticacao.models.usuario.User;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotNull;
 
 @Getter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO {
 
     @ApiModelProperty(name = "ID do usuario", example = "4b212d7e-ba27-11eb-8529-0242ac130003" ,dataType = "String",hidden = true)
@@ -33,7 +35,6 @@ public class UserDTO {
         this.id = user.getId();
         this.email = user.getEmail();
         this.name = user.getName();
-        this.password = user.getPassword();
     }
 
     public static UserDTO createUserDTOWith(User userSave) {
