@@ -24,7 +24,7 @@ import java.net.HttpURLConnection;
 
 @RestController
 @RequestMapping("/v1/user")
-@Api(tags = "Criação, autenticação e recuperação de senhas")
+@Api(tags = "Criação e autenticação de usuarios")
 public class UserController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class UserController {
     private TokenService tokenService;
 
     @PostMapping("/signup")
-    @ApiOperation(tags = "Criação, autenticação e recuperação de senhas", value = "Criação de uma conta")
+    @ApiOperation(tags = "Criação e autenticação de usuarios", value = "Criação de uma conta")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_CREATED, message = "user successfully created", response = UserDTO.class),
             @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = "Error creating user"),
@@ -52,7 +52,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    @ApiOperation(tags = "Criação, autenticação e recuperação de senhas", value = "Login do usuario")
+    @ApiOperation(tags = "Criação e autenticação de usuarios", value = "Login do usuario")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_CREATED, message = "Login successfully", response = TokenDTO.class),
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = "Error creating user")
