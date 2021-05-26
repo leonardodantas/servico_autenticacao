@@ -3,6 +3,7 @@ package com.servico.autenticacao.service.user;
 import com.servico.autenticacao.models.usuario.User;
 import com.servico.autenticacao.models.usuario.dto.UserDTO;
 import com.servico.autenticacao.repository.IUserRepository;
+import com.servico.autenticacao.utils.Constantes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,26 @@ public class UserService {
     private void checksForEmail(String email){
         Optional<User> user = userRepository.findByEmail(email);
         if(user.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "E-mail already registered");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, Constantes.EMAIL_ALREADY_REGISTERED);
         }
+    }
+
+    public UserDTO getUserWithID(String id){
+        Optional<User> user = getUserInDataBase(id);
+        if(user.isPresent()) {
+            return UserDTO.createUserDTOWith(user.get());
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, Constantes.ID_USER_NOT_FOUND);
+    }
+
+    private Optional<User> getUserInDataBase(String id){
+        Optional<User> user = Optional.empty();
+        try {
+            user = userRepository.findById(id);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return user;
     }
 
     private UserDTO saveUser(User user){

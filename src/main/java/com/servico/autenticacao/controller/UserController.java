@@ -6,6 +6,7 @@ import com.servico.autenticacao.models.token.TokenDTO;
 import com.servico.autenticacao.models.usuario.dto.UserDTO;
 import com.servico.autenticacao.service.authentication.TokenService;
 import com.servico.autenticacao.service.user.UserService;
+import com.servico.autenticacao.utils.Constantes;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -20,7 +21,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.net.HttpURLConnection;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/v1/user")
@@ -62,9 +65,25 @@ public class UserController {
         try {
             Authentication authentication = authManager.authenticate(dadosLogin);
             String token = tokenService.generateToken(authentication);
-            return ResponseEntity.ok(new TokenDTO(token, "Bearer"));
+            return ResponseEntity.ok(new TokenDTO(token, Constantes.BEARER));
         } catch (AuthenticationException e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @GetMapping("/id/user")
+    @ApiOperation(tags = "Criação e autenticação de usuarios", value = "Recupera o id do usuario baseado em um token")
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = "Get token successfully", response = UserDTO.class),
+            @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = "Token invalid ")
+    })
+    public ResponseEntity<?> generateIdUserWithToken(
+            @PathParam(value = "TOKEN de usuario autenticado")
+            @RequestParam String token){
+        UserDTO userDTO = tokenService.generateIdUserWithToken(token);
+        if(Objects.isNull(userDTO)){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 }

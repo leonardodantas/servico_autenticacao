@@ -2,6 +2,7 @@ package com.servico.autenticacao.service.authentication;
 
 import com.servico.autenticacao.models.usuario.User;
 import com.servico.autenticacao.repository.IUserRepository;
+import com.servico.autenticacao.utils.Constantes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,6 +23,6 @@ public class AuthenticationService implements UserDetailsService {
         if(user.isPresent()){
             return user.get();
         }
-        throw new UsernameNotFoundException("Invalid data");
+        throw new UsernameNotFoundException(Constantes.INVALID_DATA);
     }
 }

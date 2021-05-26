@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.servico.autenticacao.models.usuario.User;
 import com.servico.autenticacao.repository.IUserRepository;
 import com.servico.autenticacao.service.authentication.TokenService;
+import com.servico.autenticacao.utils.Constantes;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -43,7 +44,7 @@ public class AuthenticatedWithTokenFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
     private String getToken(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader(Constantes.AUTHORIZATION);
         if (Strings.isNullOrEmpty(token) || token.isEmpty()) {
             return null;
         }
