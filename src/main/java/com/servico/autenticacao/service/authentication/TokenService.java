@@ -27,6 +27,9 @@ public class TokenService {
     @Value("${jwt.secret}")
     private String secret;
 
+    @Value("${jwt.password}")
+    private String password;
+
     public String generateToken(Authentication authentication) {
         User logged = (User) authentication.getPrincipal();
         Date today = new Date();
@@ -34,6 +37,7 @@ public class TokenService {
 
         return Jwts.builder()
                 .setIssuer("API User authorization")
+                .claim("password", password)
                 .setSubject(logged.getId())
                 .setIssuedAt(today)
                 .setExpiration(expirationDate)
