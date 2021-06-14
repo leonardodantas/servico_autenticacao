@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Profile;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -31,14 +32,15 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.servico.autenticacao.controller"))
                 .build()
+                .tags(new Tag("AUTHORIZATION", ""))
                 .useDefaultResponseMessages(false)
                 .apiInfo(metaData());
     }
 
     private ApiInfo metaData() {
         return new ApiInfoBuilder()
-                .title(name)
-                .description(description)
+                .title("APP - AUTHORIZATION")
+                .description("API de autenticação")
                 .version(version)
                 .license("Apache License Version 2.0")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
