@@ -1,4 +1,4 @@
-package com.servico.autenticacao.utils;
+package com.servico.autenticacao.app.usecases;
 
 public class Constants {
 

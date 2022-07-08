@@ -1,4 +1,4 @@
-package com.servico.autenticacao.utils;
+package com.servico.autenticacao.infra;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

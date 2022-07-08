@@ -1,9 +1,9 @@
 package com.servico.autenticacao.config.sercurity;
 
 import com.google.common.base.Strings;
-import com.servico.autenticacao.repository.IUserRepository;
-import com.servico.autenticacao.service.authentication.TokenService;
-import com.servico.autenticacao.utils.Constants;
+import com.servico.autenticacao.infra.repository.IUserRepository;
+import com.servico.autenticacao.app.usecases.TokenService;
+import com.servico.autenticacao.app.usecases.Constants;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;

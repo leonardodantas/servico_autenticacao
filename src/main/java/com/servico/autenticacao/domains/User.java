@@ -1,7 +1,6 @@
-package com.servico.autenticacao.models.usuario;
+package com.servico.autenticacao.domains;
 
-import com.servico.autenticacao.models.perfil.Profile;
-import com.servico.autenticacao.models.usuario.dto.UserDTO;
+import com.servico.autenticacao.infra.jsons.UserDTO;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,8 +1,8 @@
 package com.servico.autenticacao.config.sercurity;
 
-import com.servico.autenticacao.repository.IUserRepository;
-import com.servico.autenticacao.service.authentication.AuthenticationService;
-import com.servico.autenticacao.service.authentication.TokenService;
+import com.servico.autenticacao.infra.repository.IUserRepository;
+import com.servico.autenticacao.app.usecases.AuthenticationService;
+import com.servico.autenticacao.app.usecases.TokenService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -1,9 +1,8 @@
-package com.servico.autenticacao.service.user;
+package com.servico.autenticacao.app.usecases;
 
-import com.servico.autenticacao.models.usuario.User;
-import com.servico.autenticacao.models.usuario.dto.UserDTO;
-import com.servico.autenticacao.repository.IUserRepository;
-import com.servico.autenticacao.utils.Constants;
+import com.servico.autenticacao.domains.User;
+import com.servico.autenticacao.infra.jsons.UserDTO;
+import com.servico.autenticacao.infra.repository.IUserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;

@@ -1,9 +1,7 @@
-package com.servico.autenticacao.service.authentication;
+package com.servico.autenticacao.app.usecases;
 
-import com.servico.autenticacao.models.usuario.User;
-import com.servico.autenticacao.models.usuario.dto.UserDTO;
-import com.servico.autenticacao.service.user.UserService;
-import com.servico.autenticacao.utils.Constants;
+import com.servico.autenticacao.domains.User;
+import com.servico.autenticacao.infra.jsons.UserDTO;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;

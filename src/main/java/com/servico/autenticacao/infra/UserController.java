@@ -1,11 +1,11 @@
-package com.servico.autenticacao.controller;
+package com.servico.autenticacao.infra;
 
-import com.servico.autenticacao.models.login.Login;
-import com.servico.autenticacao.models.token.TokenDTO;
-import com.servico.autenticacao.models.usuario.dto.UserDTO;
-import com.servico.autenticacao.service.authentication.TokenService;
-import com.servico.autenticacao.service.user.UserService;
-import com.servico.autenticacao.utils.Constants;
+import com.servico.autenticacao.domains.Login;
+import com.servico.autenticacao.domains.TokenDTO;
+import com.servico.autenticacao.infra.jsons.UserDTO;
+import com.servico.autenticacao.app.usecases.TokenService;
+import com.servico.autenticacao.app.usecases.UserService;
+import com.servico.autenticacao.app.usecases.Constants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

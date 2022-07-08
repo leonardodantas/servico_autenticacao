@@ -1,7 +1,6 @@
-package com.servico.autenticacao.service.authentication;
+package com.servico.autenticacao.app.usecases;
 
-import com.servico.autenticacao.repository.IUserRepository;
-import com.servico.autenticacao.utils.Constants;
+import com.servico.autenticacao.infra.repository.IUserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

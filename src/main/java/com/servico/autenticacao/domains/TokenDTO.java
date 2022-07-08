@@ -1,4 +1,4 @@
-package com.servico.autenticacao.models.token;
+package com.servico.autenticacao.domains;
 
 import lombok.Getter;
 

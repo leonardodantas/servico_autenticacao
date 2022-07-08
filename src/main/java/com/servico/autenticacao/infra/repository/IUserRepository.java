@@ -1,6 +1,6 @@
-package com.servico.autenticacao.repository;
+package com.servico.autenticacao.infra.repository;
 
-import com.servico.autenticacao.models.usuario.User;
+import com.servico.autenticacao.domains.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
-package com.servico.autenticacao.models.usuario.dto;
+package com.servico.autenticacao.infra.jsons;
 
-import com.servico.autenticacao.models.usuario.User;
+import com.servico.autenticacao.domains.User;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;

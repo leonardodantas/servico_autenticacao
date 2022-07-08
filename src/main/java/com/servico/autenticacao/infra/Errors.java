@@ -1,4 +1,4 @@
-package com.servico.autenticacao.utils;
+package com.servico.autenticacao.infra;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

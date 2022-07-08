@@ -1,6 +1,6 @@
-package com.servico.autenticacao.models.login;
+package com.servico.autenticacao.domains;
 
-import com.servico.autenticacao.models.usuario.dto.UserLogin;
+import com.servico.autenticacao.infra.jsons.UserLogin;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 public class Login extends UserLogin {

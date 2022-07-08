@@ -1,4 +1,4 @@
-package com.servico.autenticacao.models.perfil;
+package com.servico.autenticacao.domains;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

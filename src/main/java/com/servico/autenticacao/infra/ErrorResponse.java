@@ -1,14 +1,12 @@
-package com.servico.autenticacao.utils;
+package com.servico.autenticacao.infra;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 @Getter

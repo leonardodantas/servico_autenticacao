@@ -1,4 +1,4 @@
-package com.servico.autenticacao.models.usuario.dto;
+package com.servico.autenticacao.infra.jsons;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
