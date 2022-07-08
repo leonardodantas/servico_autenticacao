@@ -3,7 +3,6 @@ package com.servico.autenticacao.config.sercurity;
 import com.servico.autenticacao.repository.IUserRepository;
 import com.servico.autenticacao.service.authentication.AuthenticationService;
 import com.servico.autenticacao.service.authentication.TokenService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,21 +13,23 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@EnableWebSecurity
 @Configuration
+@EnableWebSecurity
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private TokenService tokenService;
+    private final TokenService tokenService;
 
-    @Autowired
-    private IUserRepository usuarioRepository;
+    private final IUserRepository userRepository;
 
-    @Autowired
-    private AuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
+
+    public SecurityConfigurations(final TokenService tokenService, final IUserRepository userRepository, final AuthenticationService authenticationService) {
+        this.tokenService = tokenService;
+        this.userRepository = userRepository;
+        this.authenticationService = authenticationService;
+    }
 
     @Override
     @Bean
@@ -37,21 +38,21 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(authenticationService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(final HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .anyRequest().permitAll()
                 .and().cors().and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(new AuthenticatedWithTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class);
+                .and().addFilterBefore(new AuthenticatedWithTokenFilter(tokenService, userRepository), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(final WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**", "/h2");
     }
 }

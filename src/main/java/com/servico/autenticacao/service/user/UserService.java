@@ -3,62 +3,45 @@ package com.servico.autenticacao.service.user;
 import com.servico.autenticacao.models.usuario.User;
 import com.servico.autenticacao.models.usuario.dto.UserDTO;
 import com.servico.autenticacao.repository.IUserRepository;
-import com.servico.autenticacao.utils.Constantes;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.servico.autenticacao.utils.Constants;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class UserService {
 
-    @Autowired
-    private IUserRepository userRepository;
+    private final IUserRepository userRepository;
 
-    public UserDTO signUpUser(UserDTO userDTO){
-        checksForEmail(userDTO.getEmail());
-        User user = User.createSimpleUserAndGenerateUUID(userDTO);
+    public UserService(final IUserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public UserDTO signUpUser(final UserDTO userDTO) {
+        checkEmailExists(userDTO.getEmail());
+        final var user = User.createSimpleUserAndGenerateUUID(userDTO);
         return saveUser(user);
     }
 
-    private void checksForEmail(String email){
-        Optional<User> user = userRepository.findByEmail(email);
-        if(user.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, Constantes.EMAIL_ALREADY_REGISTERED);
-        }
+    private void checkEmailExists(final String email) {
+        userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, Constants.EMAIL_ALREADY_REGISTERED));
     }
 
-    public UserDTO getUserWithID(String id){
-        Optional<User> user = getUserInDataBase(id);
-        if(user.isPresent()) {
-            return UserDTO.createUserDTOWith(user.get());
-        }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, Constantes.ID_USER_NOT_FOUND);
+    public UserDTO getUserWithID(final String id) {
+        final var user = getUserInDataBase(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.ID_USER_NOT_FOUND));
+        return UserDTO.createUserDTOWith(user);
     }
 
-    private Optional<User> getUserInDataBase(String id){
-        Optional<User> user = Optional.empty();
-        try {
-            user = userRepository.findById(id);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return user;
+    private Optional<User> getUserInDataBase(final String id) {
+        return userRepository.findById(id);
     }
 
-    private UserDTO saveUser(User user){
-        UserDTO userDTO = new UserDTO();
-        try {
-            User userSave = userRepository.save(user);
-            if(!Objects.isNull(userSave)) {
-                userDTO = UserDTO.createUserDTOWith(userSave);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return userDTO;
+    private UserDTO saveUser(final User user) {
+        final var userSave = userRepository.save(user);
+        return UserDTO.createUserDTOWith(userSave);
     }
 }

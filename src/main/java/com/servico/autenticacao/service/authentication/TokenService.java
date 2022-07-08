@@ -1,12 +1,11 @@
 package com.servico.autenticacao.service.authentication;
 
-import com.google.common.base.Strings;
 import com.servico.autenticacao.models.usuario.User;
 import com.servico.autenticacao.models.usuario.dto.UserDTO;
 import com.servico.autenticacao.service.user.UserService;
-import com.servico.autenticacao.utils.Constantes;
-import io.jsonwebtoken.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.servico.autenticacao.utils.Constants;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -18,22 +17,28 @@ import java.util.Date;
 @Service
 public class TokenService {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Value("${jwt.expiration}")
-    private String expiration;
+    private final String expiration;
 
-    @Value("${jwt.secret}")
-    private String secret;
+    private final String secret;
 
-    @Value("${jwt.password}")
-    private String password;
+    private final String password;
 
-    public String generateToken(Authentication authentication) {
-        User logged = (User) authentication.getPrincipal();
-        Date today = new Date();
-        Date expirationDate = new Date(today.getTime() + Long.parseLong(expiration));
+    public TokenService(final UserService userService,
+                        @Value("${jwt.expiration}") final String expiration,
+                        @Value("${jwt.secret}") final String secret,
+                        @Value("${jwt.password}") final String password) {
+        this.userService = userService;
+        this.expiration = expiration;
+        this.secret = secret;
+        this.password = password;
+    }
+
+    public String generateToken(final Authentication authentication) {
+        final var logged = (User) authentication.getPrincipal();
+        final var today = new Date();
+        final var expirationDate = new Date(today.getTime() + Long.parseLong(expiration));
 
         return Jwts.builder()
                 .setIssuer("API User authorization")
@@ -45,25 +50,20 @@ public class TokenService {
                 .compact();
     }
 
-    public UserDTO generateIdUserWithToken(String token){
-        String id = convertTokenInIdUser(token);
-        if(Strings.isNullOrEmpty(id)){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, Constantes.ID_EMPTY_OR_NULL);
-        }
-        return userService.getUserWithID(id);
+    public UserDTO generateIdUserWithToken(final String token) {
+        final var userId = getUserId(token);
+        return userService.getUserWithID(userId);
     }
 
-    private String convertTokenInIdUser(String token){
-        String id = "";
-        try{
-            id = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
-        }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, Constantes.TOKEN_INVALID_FORMAT );
+    private String getUserId(final String token) {
+        try {
+            return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, Constants.TOKEN_INVALID_FORMAT);
         }
-        return id;
     }
 
-    public boolean isTokenValid(String token) {
+    public boolean isTokenValid(final String token) {
         try {
             Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
             return true;
@@ -72,8 +72,8 @@ public class TokenService {
         }
     }
 
-    public String getIdUser(String token) {
-        Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
+    public String getIdUser(final String token) {
+        final var claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
         return String.valueOf(claims.getSubject());
     }
 }

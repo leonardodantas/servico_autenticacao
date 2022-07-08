@@ -11,21 +11,21 @@ import javax.persistence.*;
 import java.util.*;
 
 @Getter
-@Table(name = "usuario")
 @Entity
+@Table(name = "user")
 public class User implements UserDetails {
 
     @Id
     @Column(length = 36)
     private String id;
 
-    @Column(name = "nome", length = 120)
+    @Column(name = "name", length = 120)
     private String name;
 
     @Column(name = "email", length = 120)
     private String email;
 
-    @Column(name = "senha", length = 100)
+    @Column(name = "password", length = 100)
     private String password;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -41,7 +41,7 @@ public class User implements UserDetails {
         this.profiles = Collections.singletonList(new Profile("1"));
     }
 
-    public static User createSimpleUserAndGenerateUUID(UserDTO userDTO){
+    public static User createSimpleUserAndGenerateUUID(final UserDTO userDTO){
         return new User(userDTO);
     }
 

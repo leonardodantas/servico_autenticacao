@@ -1,1 +1,1 @@
-INSERT INTO PERFIL(id, descricao) VALUES('1', 'ROLE_ADM');
+INSERT INTO PROFILE(id, description) VALUES('1', 'ROLE_ADM');

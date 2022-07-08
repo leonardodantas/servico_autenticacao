@@ -6,6 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -17,9 +18,9 @@ public class ErrorResponse {
     private final HttpStatus httpStatus;
     private final LocalDateTime date;
     private final int httpStatusCode;
-    private List<Errors> errors;
+    private final Collection<Errors> errors;
 
-    public ErrorResponse(ResponseStatusException error) {
+    public ErrorResponse(final ResponseStatusException error) {
         uuid = UUID.randomUUID().toString();
         httpStatus = error.getStatus();
         httpStatusCode = error.getStatus().value();
@@ -27,7 +28,7 @@ public class ErrorResponse {
         this.errors = Collections.singletonList(new Errors(error.getReason()));
     }
 
-    public ErrorResponse(MethodArgumentNotValidException exception, List<Errors> errors) {
+    public ErrorResponse(final Collection<Errors> errors) {
         this.uuid = UUID.randomUUID().toString();
         this.httpStatus = HttpStatus.BAD_REQUEST;
         this.httpStatusCode = HttpStatus.BAD_REQUEST.value();

@@ -9,14 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Getter
-@Table(name = "perfil")
 @Entity
+@Table(name = "profile")
 public class Profile implements GrantedAuthority {
 
     @Id
     private String id;
 
-    @Column(name = "descricao", length = 40)
+    @Column(name = "description", length = 40)
     private String description;
 
     @Override
@@ -26,7 +26,7 @@ public class Profile implements GrantedAuthority {
 
     public Profile(){}
 
-    public Profile(String id){
+    public Profile(final String id){
         this.id = id;
     }
 }

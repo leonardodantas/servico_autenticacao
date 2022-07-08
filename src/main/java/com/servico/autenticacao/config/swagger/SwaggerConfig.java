@@ -12,19 +12,26 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@EnableSwagger2
 @Configuration
+@EnableSwagger2
 @Profile({"dev","hml"})
 public class SwaggerConfig {
 
-    @Value("${spring.application.name}")
-    private String name;
+    private final String name;
+    private final String description;
+    private final String version;
 
-    @Value("${spring.application.description}")
-    private String description;
-
-    @Value("${spring.version}")
-    private String version;
+    public SwaggerConfig(
+            @Value("${spring.application.name}")
+            final String name,
+            @Value("${spring.application.description}")
+            final String description,
+            @Value("${spring.version}")
+            final String version) {
+        this.name = name;
+        this.description = description;
+        this.version = version;
+    }
 
     @Bean
     public Docket api() {
